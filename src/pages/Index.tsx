@@ -3,6 +3,7 @@ import { toCents, computeTotals } from '@/lib/utils';
 import { Search, Plus, Calculator, Check, X, Users, History, Printer, FileText, MessageCircle, Calendar, LogOut, Package, BarChart3, Truck, RefreshCw, Building2, CreditCard, QrCode, Layout } from 'lucide-react';
 import jsPDF from 'jspdf';
 import QRCode from 'qrcode';
+import { renderToString } from 'react-dom/server';
 import { QRCodeSVG } from 'qrcode.react';
 import Login from '../components/Login';
 import CustomerManager from '../components/CustomerManager';
@@ -1537,13 +1538,10 @@ Use "Confirm Bill" to save this bill.
         const upiString = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(upiName)}&am=${targetAmount.toFixed(2)}&cu=INR&tn=Bill${bill.billNumber || bill.id}`;
         
         try {
-          // Generate Base64 QR code directly to ensure it prints reliably in the browser print dialog
-          // bypassing CORS and network issues from external APIs post-deployment
-          finalQrCodeUrl = await QRCode.toDataURL(upiString, {
-            width: 300,
-            margin: 1,
-            errorCorrectionLevel: 'H'
-          });
+          // Generate inline SVG directly using qrcode.react to guarantee 100% reliability offline and post-deployment
+          const svgString = renderToString(<QRCodeSVG value={upiString} size={300} level="M" includeMargin={true} />);
+          // Convert SVG string to a valid Data URL
+          finalQrCodeUrl = `data:image/svg+xml;utf8,${encodeURIComponent(svgString)}`;
         } catch (e) {
           console.error("Failed to generate QR code for printing", e);
           // Fallback to external API if local generation fails for any reason
