@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { toCents, computeTotals } from '@/lib/utils';
 import { Search, Plus, Calculator, Check, X, Users, History, Printer, FileText, MessageCircle, Calendar, LogOut, Package, BarChart3, Truck, RefreshCw, Building2, CreditCard, QrCode, Layout } from 'lucide-react';
 import jsPDF from 'jspdf';
+import QRCode from 'qrcode';
 import { QRCodeSVG } from 'qrcode.react';
 import Login from '../components/Login';
 import CustomerManager from '../components/CustomerManager';
@@ -1534,21 +1535,19 @@ Use "Confirm Bill" to save this bill.
         const upiId = qrSettings?.upiId || 'YOUR_UPI_ID';
         const upiName = businessInfo?.business_name || shopDetails?.shopName || 'Shop';
         const upiString = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(upiName)}&am=${targetAmount.toFixed(2)}&cu=INR&tn=Bill${bill.billNumber || bill.id}`;
-        finalQrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=1&data=${encodeURIComponent(upiString)}`;
-
-        // Convert to Base64 to ensure it prints reliably in the browser print dialog
-        if (finalQrCodeUrl && finalQrCodeUrl.startsWith('http')) {
-          try {
-            const response = await fetch(finalQrCodeUrl);
-            const blob = await response.blob();
-            finalQrCodeUrl = await new Promise<string>((resolve) => {
-              const reader = new FileReader();
-              reader.onloadend = () => resolve(reader.result as string);
-              reader.readAsDataURL(blob);
-            });
-          } catch (e) {
-            console.error("Failed to load QR code for printing", e);
-          }
+        
+        try {
+          // Generate Base64 QR code directly to ensure it prints reliably in the browser print dialog
+          // bypassing CORS and network issues from external APIs post-deployment
+          finalQrCodeUrl = await QRCode.toDataURL(upiString, {
+            width: 300,
+            margin: 1,
+            errorCorrectionLevel: 'H'
+          });
+        } catch (e) {
+          console.error("Failed to generate QR code for printing", e);
+          // Fallback to external API if local generation fails for any reason
+          finalQrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=1&data=${encodeURIComponent(upiString)}`;
         }
       }
 
@@ -1621,16 +1620,9 @@ Use "Confirm Bill" to save this bill.
         const upiId = qrSettings?.upiId || 'YOUR_UPI_ID';
         const upiName = businessInfo?.business_name || shopDetails?.shopName || 'Shop';
         const upiString = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(upiName)}&am=${targetAmount.toFixed(2)}&cu=INR&tn=Bill${bill.billNumber || bill.id}`;
-        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=1&data=${encodeURIComponent(upiString)}`;
-
         try {
-          const response = await fetch(qrUrl);
-          const blob = await response.blob();
-          const base64Data = await new Promise<string>((resolve) => {
-            const reader = new FileReader();
-            reader.onloadend = () => resolve(reader.result as string);
-            reader.readAsDataURL(blob);
-          });
+          // Generate QR code locally as Base64 Data URL to avoid CORS and latency issues in production
+          const base64Data = await QRCode.toDataURL(upiString, { width: 300, margin: 1 });
           
           yPosition += 10;
           // Check if we need a new page for QR code
