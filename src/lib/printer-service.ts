@@ -126,18 +126,19 @@ class PrinterService {
     const qrCodeSection = qrCodeDataUrl ? `
       <div style="text-align: center; margin-top: 20px; border-top: 1px dashed #ccc; padding-top: 15px;">
         <img id="qr-img" src="${qrCodeDataUrl}" alt="QR Code" style="width: 150px; height: 150px;" />
-        ${amount !== undefined ? `<p style="margin-top: 8px; font-size: 16px; font-weight: bold;">scan to pay ₹${amount.toFixed(2)}</p>` : `<p style="margin-top: 8px; font-size: 16px; font-weight: bold;">scan to pay</p>`}
+        ${amount !== undefined ? `<p style="margin-top: 8px; font-size: 16px; font-weight: bold;">scan to pay Rs. ${amount.toFixed(2)}</p>` : `<p style="margin-top: 8px; font-size: 16px; font-weight: bold;">scan to pay</p>`}
       </div>
     ` : '';
 
     printWindow.document.write(`
+      <!DOCTYPE html>
       <html>
         <head>
+          <meta charset="utf-8">
           <title>${title}</title>
           <style>
-            @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
             body { 
-              font-family: 'Roboto', sans-serif; 
+              font-family: Arial, Helvetica, sans-serif; 
               font-weight: 400;
               padding: 20px; 
               line-height: 1.4;
@@ -147,7 +148,7 @@ class PrinterService {
               white-space: pre-wrap; 
               font-size: 14px;
               margin: 0;
-              font-family: 'Roboto', sans-serif;
+              font-family: 'Courier New', Courier, monospace;
               font-weight: 400;
             }
             b {
