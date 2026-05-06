@@ -139,25 +139,40 @@ class PrinterService {
           <style>
             body { 
               font-family: Arial, Helvetica, sans-serif; 
-              font-weight: 400;
+              font-weight: 900;
+              color: #000000;
               padding: 20px; 
               line-height: 1.4;
               margin: 0;
             }
             pre { 
               white-space: pre-wrap; 
-              font-size: 14px;
+              font-size: 20px;
               margin: 0;
               font-family: 'Courier New', Courier, monospace;
-              font-weight: 400;
+              font-weight: 900;
+              color: #000000;
             }
             b {
-              font-weight: 700;
+              font-weight: 900;
+              font-size: 22px;
             }
             @media print {
-              body { padding: 10px; }
-              pre { font-size: 12px; }
-              b { font-weight: 700; }
+              body { 
+                padding: 10px; 
+                color: #000000 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+              }
+              pre { 
+                font-size: 20px !important; 
+                font-weight: 900 !important;
+                color: #000000 !important;
+              }
+              b { 
+                font-weight: 900 !important; 
+                font-size: 22px !important;
+              }
             }
           </style>
         </head>
