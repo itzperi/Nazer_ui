@@ -128,9 +128,15 @@ Thank you for your business!
           <head>
             <title>History - ${customerName}</title>
             <style>
+<<<<<<< HEAD
               @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap');
               body { font-family: 'Roboto', sans-serif; font-weight: 900; padding: 20px; }
               pre { white-space: pre-wrap; font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 22px; }
+=======
+              @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+              body { font-family: 'Roboto', sans-serif; font-weight: 700; padding: 20px; }
+              pre { white-space: pre-wrap; font-family: 'Roboto', sans-serif; font-weight: 700; font-size: 16px; }
+>>>>>>> 51d5d5822a92c44b058fc6c62c3e77a564e5b885
             </style>
           </head>
           <body>

@@ -169,10 +169,17 @@ Thank you for your business!
             <head>
               <title>Walk-in Bill</title>
               <style>
+<<<<<<< HEAD
                 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap');
                 body { font-family: 'Roboto', sans-serif; font-weight: 900; padding: 20px; line-height: 1.4; }
                 pre { white-space: pre-wrap; font-size: 22px; margin: 0; font-family: 'Roboto', sans-serif; font-weight: 900; }
                 @media print { body { margin: 0; padding: 10px; font-weight: 900; } pre { font-size: 22px; font-weight: 900; } }
+=======
+                @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+                body { font-family: 'Roboto', sans-serif; font-weight: 700; padding: 20px; line-height: 1.4; }
+                pre { white-space: pre-wrap; font-size: 16px; margin: 0; font-family: 'Roboto', sans-serif; font-weight: 700; }
+                @media print { body { margin: 0; padding: 10px; font-weight: 700; } pre { font-size: 14px; font-weight: 700; } }
+>>>>>>> 51d5d5822a92c44b058fc6c62c3e77a564e5b885
               </style>
             </head>
             <body>
